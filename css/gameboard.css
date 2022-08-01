@@ -1,3 +1,5 @@
+
+
 #main-container {
     width: 500px;
     display: grid;
@@ -9,5 +11,6 @@
     border: 1px solid black;
     display: grid;
     place-content: center;
+    padding: 5px;
 }
  

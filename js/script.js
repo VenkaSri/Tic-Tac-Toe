@@ -7,18 +7,20 @@ const gameboard = (() => {
     
     for(let i = 0; i < 9; i++) {
         let div = document.createElement('div');
+        div.innerHTML = " ";
         boardarray.push(div);
     }
+    
     return {boardarray};
     
 })();
 
 
-playButton.addEventListener("click", () => {
-for(let key in gameboard.boardarray) {
-    container.append(gameboard.boardarray[key])
-}
-})
+// playButton.addEventListener("click", () => {
+// for(let key in gameboard.boardarray) {
+//     container.append(gameboard.boardarray[key])
+// }
+// })
 
 const borders = (() => {
 
@@ -39,8 +41,30 @@ const borders = (() => {
   
 })();
 
+const player = () => {
+    
+    const board = document.querySelectorAll('#main-container div');
+
+    // for(let i in board) {
+    //     console.log(board[i]);
+    // }
+    for (let i = 0; i < board.length; i++) {
+        board[i].addEventListener('click', () => {
+            board[i].innerHTML = 'X';
+        })
+    }
+    
+};
 
 
+
+
+
+
+for(let key in gameboard.boardarray) {
+    container.append(gameboard.boardarray[key])
+}
+player();
 
 
 
