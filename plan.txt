@@ -1,0 +1,4 @@
+gamecontroller
+
+wait for player1 (X) input --> selected div belongs to player(div position)
+wait for player2 (O) input -->

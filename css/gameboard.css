@@ -3,14 +3,13 @@
 #main-container {
     width: 500px;
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(3, 180px);
     grid-template-rows: repeat(3, 150px);
 }
 
 #main-container > div {
-    border: 1px solid black;
+    border: 3px solid black;
     display: grid;
     place-content: center;
-    padding: 5px;
 }
  
