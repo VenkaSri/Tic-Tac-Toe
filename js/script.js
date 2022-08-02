@@ -1,6 +1,7 @@
 const container = document.querySelector('#main-container');
 const playButton = document.querySelector('#play-button');
 
+// gameboard
 const gameboard = (() => {
 
     const boardarray = [];
@@ -15,13 +16,7 @@ const gameboard = (() => {
     
 })();
 
-
-// playButton.addEventListener("click", () => {
-// for(let key in gameboard.boardarray) {
-//     container.append(gameboard.boardarray[key])
-// }
-// })
-
+// remove side borders
 const borders = (() => {
 
     for(let i = 0; i < 3; i++)  {
@@ -41,21 +36,47 @@ const borders = (() => {
   
 })();
 
-const player = () => {
-    
-    const board = document.querySelectorAll('#main-container div');
 
-    // for(let i in board) {
-    //     console.log(board[i]);
-    // }
-    for (let i = 0; i < board.length; i++) {
-        board[i].addEventListener('click', () => {
-            board[i].innerHTML = 'X';
-        })
-    }
+const Player = (name, symbol) => {
+    const getName = () => name;
+    const getSymbol = () => symbol;
+
     
+    return {getName, getSymbol} 
 };
 
+
+
+
+const gameController = () => {
+    let arrayposition = [];
+
+    while(arrayposition != 8) {
+        arrayposition.push(jack.pos);
+        
+    }
+
+    return{arrayposition}
+}
+
+
+
+const displayController = (xPlayer, oPlayer) => {
+    let arrPos = [];
+    let curr = xPlayer;
+
+    let board = document.querySelectorAll("#main-container div");
+        for (let i = 0; i < board.length; i++) {
+            board[i].addEventListener('click', () => {
+                board[i].innerHTML = xPlayer.getSymbol();
+            })
+        }
+  
+    
+    
+    return {arrPos};
+    
+};
 
 
 
@@ -64,9 +85,11 @@ const player = () => {
 for(let key in gameboard.boardarray) {
     container.append(gameboard.boardarray[key])
 }
-player();
 
 
 
 
 
+
+
+displayController(Player("jack", 'x'), Player('rose', "x"));
