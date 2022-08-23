@@ -1,15 +1,7 @@
-
-
 #main-container {
-    width: 500px;
-    display: grid;
-    grid-template-columns: repeat(3, 180px);
-    grid-template-rows: repeat(3, 150px);
+    font-size: 1.8em;
 }
 
-#main-container > div {
-    border: 3px solid black;
-    display: grid;
-    place-content: center;
-}
- 
+
+
+  
