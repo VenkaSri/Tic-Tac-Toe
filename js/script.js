@@ -50,14 +50,19 @@ const gameFlow = (pos) => {
 
 const checkWinner = () => {
   const board = gameboard.board;
-  for (let i = 0; i < board[1].length; i++) {
+  for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
-      if(board[0][0] === 'x' && board[0][1] === 'x' && board[0][2] === 'x') console.log(player1.getName() + ' is the winner');
-      if(board[1][0] === 'x' && board[1][1] === 'x' && board[1][2] === 'x') console.log(player1.getName() + ' is the winner');
-      if(board[2][0] === 'x' && board[2][1] === 'x' && board[2][2] === 'x') console.log(player1.getName() + ' is the winner');
-      if(board[0][0] === 'x' && board[0][1] === 'x' && board[0][2] === 'x') console.log(player1.getName() + ' is the winner');
-      if(board[1][0] === 'x' && board[1][1] === 'x' && board[1][2] === 'x') console.log(player1.getName() + ' is the winner');
-      if(board[2][0] === 'x' && board[2][1] === 'x' && board[2][2] === 'x') console.log(player1.getName() + ' is the winner');
+      // check column
+      if(board[i][j] == 'x' && board[i][j + 1] == 'x' && board[i][j + 2] == 'x') console.log(player1.getName() + ' is the winner');
+      if(board[i][j] == 'o' && board[i][j + 1] == 'o' && board[i][j + 2] == 'o') console.log(player2.getName() + ' is the winner');
+      // check row
+      if(board[i][0 + i] == 'x' && board[1][0 + i] == 'x' && board[2][0 + i] == 'x') console.log(player1.getName() + ' is the winner');
+      if(board[i][0 + i] == 'x' && board[1][0 + i] == 'x' && board[2][0 + i] == 'x') console.log(player2.getName() + ' is the winner');
+      //check diagonal
+      if(board[0][2] == 'x' && board[1][1] == 'x' && board[2][0] == 'x') console.log(player1.getName() + ' is the winner');
+      if(board[0][0] == 'x' && board[1][1] == 'x' && board[2][2] == 'x') console.log(player1.getName() + ' is the winner');
+      if(board[0][2] == 'o' && board[1][1] == 'o' && board[2][0] == 'o') console.log(player2.getName() + ' is the winner');
+      if(board[0][0] == 'o' && board[1][1] == 'o' && board[2][2] == 'o') console.log(player2.getName() + ' is the winner');
     }
   }
 };
@@ -82,6 +87,11 @@ window.onload = () => {
     })
   }
 };
+
+
+
+
+
 
 
 
