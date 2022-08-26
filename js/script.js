@@ -29,36 +29,36 @@ const placeMark = (mark, pos) => {
   const arr = displayBoard.mainContainer.childNodes;
   if(arr[pos].innerHTML === "") {
     arr[pos].innerHTML = mark;
-    turnArray.push(mark);
+    turnArray.push(pos);
     pushToBoard(pos, mark);
   }
 };
 
-const aiMark = (mark, pos) => {
-  const arr = displayBoard.mainContainer.childNodes;
-  if(arr[pos].innerHTML === "") {
-    arr[pos].innerHTML = mark;
-    turnArray.push(mark);
-    pushToBoard(pos, mark);
-  }
+const aiMark = () => {
+  placeMark(player2.getMark(), randomNumber());
 };
 
 
-const gameFlow = (pos) => {
+const gameFlow = () => {
   if (turnArray.length % 2 == 0) {
     if(player1.getName() != 'AI') {
       placeMark(player1.getMark(), pos);
       checkWinner();
     } else {
-      aiMark()
+      aiMark();
     }
   } else {
-    if(player1.getName() != 'AI') {
+    if(player2.getName() != 'AI') {
       placeMark(player2.getMark(), pos);
       checkWinner();
+    } else {
+      aiMark();
     }
   }
 };
+
+const arrPos = pos => pos;
+
 
 const checkWinner = () => {
   const board = gameboard.board;
@@ -77,16 +77,21 @@ const checkWinner = () => {
       if(board[0][0] == 'o' && board[1][1] == 'o' && board[2][2] == 'o') console.log(player2.getName() + ' is the winner');
     }
   }
+  gameFlow();
 };
 
 const randomNumber = () => {
-  const arr = gameboard.board;
+  
   let num = Math.floor(Math.random() * 10);
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr[i].length; j++) {
-      
-    }
+  for (let takenPos of turnArray) {
+    if (takenPos == num) {
+      num = Math.floor(Math.random() * 10);
+      console.log(num);
+      return num;
+    } 
   }
+  console.log(num);
+  return num;
 }
 
 const pushToBoard = (pos, mark) => {
@@ -103,12 +108,14 @@ const pushToBoard = (pos, mark) => {
 
 const player1 = player('Jim', 'x');
   const player2 = player('AI', 'o');
+  let pos;
 window.onload = () => {
   
   const arr = displayBoard.mainContainer.childNodes;
   for (let i = 0; i < arr.length; i++) {
     arr[i].addEventListener('click', () => {
-      gameFlow(i);
+      pos = i;
+      gameFlow();
     })
   }
 };
