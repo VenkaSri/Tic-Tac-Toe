@@ -28,16 +28,24 @@ const player = (name, mark) => {
 
 const turnArray = [];
 const placeMark = (mark, pos) => {
+
   const arr = displayBoard.mainContainer.childNodes;
-  if(arr[pos].innerHTML == "") {
-    arr[pos].innerHTML = mark;
-    pushToBoard(pos, mark);
+  try {
+    if(arr[pos].innerHTML == "") {
+      arr[pos].innerHTML = mark;
+      pushToBoard(pos, mark);
+    }
   }
+  catch(err) {
+    console.log(err.message);
+  }
+  
 };
 
 
 
 const gameFlow = () => {
+  const arr = displayBoard.mainContainer.childNodes;
   if (turnArray.length % 2 == 0) {
     if(player1.getName() != 'AI') {
       placeMark(player1.getMark(), pos);
@@ -49,6 +57,7 @@ const gameFlow = () => {
   } else {
     if(player2.getName() != 'AI') {
       placeMark(player2.getMark(), pos);
+      turnArray.push(pos);
       checkWinner();
     } else {
       aiMark();
@@ -116,15 +125,14 @@ const pushToBoard = (pos, mark) => {
 
 const player1 = player('Jim', 'x');
   const player2 = player('AI', 'o');
-  
+
 window.onload = () => {
-  
   const arr = displayBoard.mainContainer.childNodes;
   for (let i = 0; i < arr.length; i++) {
     arr[i].addEventListener('click', () => {
       pos = i;
       gameFlow();
-    })
+    }, {once: true});
   }
 };
 
