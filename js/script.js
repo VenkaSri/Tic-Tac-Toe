@@ -1,3 +1,5 @@
+let pos;
+let diffNum = false;
 const gameboard = (() => {
   const board = [
     ["<div></div>", "<div></div>", "<div></div>"],
@@ -27,22 +29,19 @@ const player = (name, mark) => {
 const turnArray = [];
 const placeMark = (mark, pos) => {
   const arr = displayBoard.mainContainer.childNodes;
-  if(arr[pos].innerHTML === "") {
+  if(arr[pos].innerHTML == "") {
     arr[pos].innerHTML = mark;
-    turnArray.push(pos);
     pushToBoard(pos, mark);
   }
 };
 
-const aiMark = () => {
-  placeMark(player2.getMark(), randomNumber());
-};
 
 
 const gameFlow = () => {
   if (turnArray.length % 2 == 0) {
     if(player1.getName() != 'AI') {
       placeMark(player1.getMark(), pos);
+      turnArray.push(pos);
       checkWinner();
     } else {
       aiMark();
@@ -57,7 +56,11 @@ const gameFlow = () => {
   }
 };
 
-const arrPos = pos => pos;
+const aiMark = () => {
+  let num = randomNumber();
+  turnArray.push(num);
+  placeMark(player2.getMark(), num);
+};
 
 
 const checkWinner = () => {
@@ -77,22 +80,27 @@ const checkWinner = () => {
       if(board[0][0] == 'o' && board[1][1] == 'o' && board[2][2] == 'o') console.log(player2.getName() + ' is the winner');
     }
   }
-  gameFlow();
+  if (player1.getName() == 'AI' || player2.getName() == 'AI') gameFlow();
+
+
 };
 
 const randomNumber = () => {
+  let num = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   
-  let num = Math.floor(Math.random() * 10);
-  for (let takenPos of turnArray) {
-    if (takenPos == num) {
-      num = Math.floor(Math.random() * 10);
-      console.log(num);
-      return num;
-    } 
+
+  for (let i = 0; i < turnArray.length; i++) {
+    num.splice(num.indexOf(turnArray[i]), 1);
   }
-  console.log(num);
-  return num;
+
+  let item = num[Math.floor(Math.random()*num.length)];
+  return item;
+
 }
+
+
+
+
 
 const pushToBoard = (pos, mark) => {
   if(pos == 1 || pos == 2 || pos == 3) {
@@ -108,7 +116,7 @@ const pushToBoard = (pos, mark) => {
 
 const player1 = player('Jim', 'x');
   const player2 = player('AI', 'o');
-  let pos;
+  
 window.onload = () => {
   
   const arr = displayBoard.mainContainer.childNodes;
@@ -119,6 +127,10 @@ window.onload = () => {
     })
   }
 };
+
+
+
+
 
 
 
