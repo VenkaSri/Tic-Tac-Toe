@@ -1,19 +1,19 @@
 #main-container {
+   font-size: 2em;
+
+}
+
+#board {
     width: 300px;
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-template-columns: repeat(3, 180px);
     grid-template-rows: repeat(3, 150px);
-
 }
 
 
-
-#main-container > div {
+.cell {
     border: 1px solid black;
-    border: 3px solid black;
-    display: grid;
-    place-content: center;
-    padding: 5px;
+    height: 100px;
+    width: 100px;
 }
-  
