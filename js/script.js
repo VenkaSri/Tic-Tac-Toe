@@ -27,18 +27,23 @@ const player2 = player('AI', 'Human');
 
 window.onload = () => {
   const board = gameboard.board;
+  placeAIMark();
   for (let i = 0; i < board.length; i++) {
     for (let j= 0; j < board[i].length; j++) {
       board[i][j].addEventListener('click', () => {
         if(xPlayer)  { 
-          if(player1.getType == 'AI') {
+          if(player1.getType !== 'AI') {
             board[i][j].innerHTML = "X";
+            placeAIMark();
           } else {
+            placeAIMark();
           }
-          xPlayer = false;
         } else {
-          board[i][j].innerHTML = "O";
-          xPlayer = true;
+          if(board[i][j].innerHTML == "") {
+            board[i][j].innerHTML = "O";
+            xPlayer = true;
+            placeAIMark();
+          }
         }
       }, {once:true})
     }
@@ -55,7 +60,6 @@ const emptySpots = () => {
       if(board[i][j].innerHTML == "") {
         iPos = i;
         jPos = j;
-        
         emptySpotsArray.push({iPos, jPos})
       }
     }
@@ -65,37 +69,29 @@ const emptySpots = () => {
 
 const placeAIMark = () => {
   const board = gameboard.board;
-  if(xPlayer && player1.getType !== 'AI') {
-    board[randomSpot().iPos][randomSpot().jPos].innerHTML = "X";
-    xPlayer = false;
-  } 
-}
+  let pos = randomSpot();
+  if(xPlayer) { 
+    board[pos[0]][pos[1]].innerHTML = "X";
+    xPlayer = false; 
+  } else {
+    board[pos[0]][pos[1]].innerHTML = "O";
+    xPlayer = true; 
+  }
+} 
+
 
 const randomSpot = () => {
   const arr = emptySpots();
   let x = arr[Math.floor(Math.random() * arr.length)];
-  return x;
+  let i = x.iPos;
+  let j = x.jPos;
+  return [i, j];
 }
 
 
 
-const haveSameData = function (obj1, obj2) {
-  const obj1Length = Object.keys(obj1).length;
-  const obj2Length = Object.keys(obj2).length;
 
-  if (obj1Length === obj2Length) {
-      return Object.keys(obj1).every(
-          key => obj2.hasOwnProperty(key)
-              && obj2[key] === obj1[key]);
-  }
-  return false;
-}
 
-const randGen = () => {
-  let iPos = Math.floor(Math.random() * 3);
-  let jPos = Math.floor(Math.random() * 3);
-  return {iPos, jPos};
-}
 
 
 
