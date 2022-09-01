@@ -31,21 +31,27 @@ window.onload = () => {
       board[i][j].addEventListener(
         "click",
         () => {
-          if (xPlayer) {
-            if (player1.getType == "Human") {
-              board[i][j].innerHTML = "X";
-              xPlayer = false;
-              placeAIMark();
+          if(!gameOver) {
+            if (xPlayer) {
+              if (player1.getType == "Human") {
+                board[i][j].innerHTML = "X";
+                xPlayer = false;
+                placeAIMark();
+                checkStatus();
+              } else {
+                placeAIMark();
+                checkStatus();
+              }
             } else {
-              placeAIMark();
-            }
-          } else {
-            if (board[i][j].innerHTML == "") {
-              board[i][j].innerHTML = "O";
-              xPlayer = true;
-              placeAIMark();
+              if (board[i][j].innerHTML == "") {
+                board[i][j].innerHTML = "O";
+                xPlayer = true;
+                placeAIMark();
+                checkStatus();
+              }
             }
           }
+          
         },
         { once: true }
       );
@@ -94,32 +100,40 @@ const randomSpot = () => {
   let x = arr[Math.floor(Math.random() * arr.length)];
   let i = x.iPos;
   let j = x.jPos;
+
   return [i, j];
 };
 
 const checkStatus = () => {
-  const arr = emptySpots().takenSpotsArray;
   const board = gameboard.board; 
-  
-  
   const arr1 = [0, 1, 2];
-  const checkCol = (currentValue) => {
-    if(currentValue === 'X' || currentValue === 'O') {
-      return currentValue;
-    }
-    
-    
-  }
-    
+  const comboArr = [];
+  const markAtLeftDia = [board[0][0].innerHTML, board[1][1].innerHTML, board[2][2].innerHTML];
+  const markAtRightDia = [board[0][2].innerHTML, board[1][1].innerHTML, board[2][0].innerHTML];
 
-
+  comboArr.push(markAtLeftDia, markAtRightDia);
   for (let key of arr1) {
-      const markAtCol = [board[key][0].innerHTML, board[key][1].innerHTML, board[key][2].innerHTML];
-      if(markAtCol.every(checkCol)) {
-        console.log(markAtCol[0]);
-      };
-      
+    const markAtRow = [board[key][0].innerHTML, board[key][1].innerHTML, board[key][2].innerHTML];
+    const markAtCol = [board[0][key].innerHTML, board[1][key].innerHTML, board[2][key].innerHTML];
+    comboArr.push(markAtRow, markAtCol);
+  }; 
+  checkMark(comboArr);
+}
+
+const checkMark = arr => {
+  const checkX = (currentValue) => currentValue === 'X';
+  const checkO = (currentValue) => currentValue === 'O';
+
+  for(let i = 0; i < arr.length; i++) {
+    if(arr[i].every(checkX)) {
+      console.log(arr[i][0]);
+      gameOver = true;
+    } else if(arr[i].every(checkO)) {
+      console.log(arr[i][0]);
+      gameOver = true;
+    }
   }
+}
   
   
   
@@ -127,4 +141,4 @@ const checkStatus = () => {
   
   
   
-};
+
