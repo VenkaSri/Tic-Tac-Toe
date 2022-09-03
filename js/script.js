@@ -21,7 +21,7 @@ const player = (name, type) => {
 };
 
 const player1 = player("Jim", "Human");
-const player2 = player("Pam", "Human");
+const player2 = player("Pam", "AI");
 
 window.onload = () => {
   const board = gameboard.board;
@@ -34,24 +34,30 @@ window.onload = () => {
           if(!gameOver) {
             if (xPlayer) {
               if (player1.getType == "Human") {
-                board[i][j].innerHTML = "X";
-                xPlayer = false;
-                placeAIMark();
-                checkStatus();
+                if(board[i][j].innerHTML == "") {
+                  board[i][j].innerHTML = "X";
+                  xPlayer = false;
+                  placeAIMark();
+                  checkStatus();
+                }
               } else {
                 placeAIMark();
                 checkStatus();
               }
             } else {
-              if (board[i][j].innerHTML == "") {
-                board[i][j].innerHTML = "O";
-                xPlayer = true;
+              if (player2.getType == "Human") {
+                if(board[i][j].innerHTML == "") {
+                  board[i][j].innerHTML = "O";
+                  xPlayer = true;
+                  placeAIMark();
+                  checkStatus();
+                }
+              } else {
                 placeAIMark();
                 checkStatus();
               }
             }
           }
-          
         },
         { once: true }
       );
@@ -84,11 +90,15 @@ const emptySpots = () => {
 const placeAIMark = () => {
   const board = gameboard.board;
   let pos = randomSpot();
-  if (player1.getType !== "Human" && player2.getType !== "Human") {
+  if (player1.getType == "Human" && player2.getType == "Human") return;
+  if (player1.getType == "AI") {
     if (xPlayer) {
       board[pos[0]][pos[1]].innerHTML = "X";
       xPlayer = false;
-    } else {
+    }
+  } 
+  if (!xPlayer) {
+    if (player2.getType == "AI") {
       board[pos[0]][pos[1]].innerHTML = "O";
       xPlayer = true;
     }
@@ -98,9 +108,17 @@ const placeAIMark = () => {
 const randomSpot = () => {
   const arr = emptySpots().emptySpotsArray;
   let x = arr[Math.floor(Math.random() * arr.length)];
-  let i = x.iPos;
-  let j = x.jPos;
+  let i;
+  let j;
 
+  if (x !== undefined) {
+    i = x.iPos;
+    j = x.jPos;
+  } else {
+    gameOver = true;
+    console.log("tie");
+    return;
+  }
   return [i, j];
 };
 
@@ -117,13 +135,15 @@ const checkStatus = () => {
     const markAtCol = [board[0][key].innerHTML, board[1][key].innerHTML, board[2][key].innerHTML];
     comboArr.push(markAtRow, markAtCol);
   }; 
+  
+
   checkMark(comboArr);
 }
 
 const checkMark = arr => {
   const checkX = (currentValue) => currentValue === 'X';
   const checkO = (currentValue) => currentValue === 'O';
-
+  
   for(let i = 0; i < arr.length; i++) {
     if(arr[i].every(checkX)) {
       console.log(arr[i][0]);
