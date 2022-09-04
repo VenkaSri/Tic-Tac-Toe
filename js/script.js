@@ -98,28 +98,28 @@ const placeAIMark = () => {
     }
   } 
   if (!xPlayer) {
-    if (player2.getType == "AI") {
-      board[pos[0]][pos[1]].innerHTML = "O";
-      xPlayer = true;
-    }
+    const emptSpotsArr = emptySpots().emptySpotsArray;
+    if (emptSpotsArr.length > 1) {
+      if (player2.getType == "AI") {
+        board[pos[0]][pos[1]].innerHTML = "O";
+        xPlayer = true;
+      }
+    } 
   } 
 };
 
 const randomSpot = () => {
   const arr = emptySpots().emptySpotsArray;
-  let x = arr[Math.floor(Math.random() * arr.length)];
+  if (arr.length > 1) {
+    let x = arr[Math.floor(Math.random() * arr.length)];
   let i;
   let j;
-
-  if (x !== undefined) {
     i = x.iPos;
     j = x.jPos;
-  } else {
-    gameOver = true;
-    console.log("tie");
-    return;
-  }
+  
   return [i, j];
+  }
+  return;
 };
 
 const checkStatus = () => {
