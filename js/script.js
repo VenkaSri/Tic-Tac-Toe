@@ -21,7 +21,7 @@ const player = (name, type) => {
 };
 
 const player1 = player("Jim", "Human");
-const player2 = player("Pam", "AI");
+const player2 = player("Pam", "Human");
 
 window.onload = () => {
   const board = gameboard.board;
@@ -134,7 +134,13 @@ const checkStatus = () => {
     const markAtRow = [board[key][0].innerHTML, board[key][1].innerHTML, board[key][2].innerHTML];
     const markAtCol = [board[0][key].innerHTML, board[1][key].innerHTML, board[2][key].innerHTML];
     comboArr.push(markAtRow, markAtCol);
-  }; 
+  };
+
+  const emptSpotsArr = emptySpots().emptySpotsArray;
+  if (emptSpotsArr.length == 0 && gameOver == false) {
+    console.log("Tie game");
+  }
+  
   
 
   checkMark(comboArr);
