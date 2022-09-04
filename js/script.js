@@ -21,7 +21,7 @@ const player = (name, type) => {
 };
 
 const player1 = player("Jim", "Human");
-const player2 = player("Pam", "Human");
+const player2 = player("Pam", "AI");
 
 window.onload = () => {
   const board = gameboard.board;
@@ -36,25 +36,23 @@ window.onload = () => {
               if (player1.getType == "Human") {
                 if(board[i][j].innerHTML == "") {
                   board[i][j].innerHTML = "X";
+                  checkStatus();
                   xPlayer = false;
                   placeAIMark();
-                  checkStatus();
                 }
               } else {
                 placeAIMark();
-                checkStatus();
               }
             } else {
               if (player2.getType == "Human") {
                 if(board[i][j].innerHTML == "") {
                   board[i][j].innerHTML = "O";
+                  checkStatus();
                   xPlayer = true;
                   placeAIMark();
-                  checkStatus();
                 }
               } else {
                 placeAIMark();
-                checkStatus();
               }
             }
           }
@@ -89,37 +87,41 @@ const emptySpots = () => {
 
 const placeAIMark = () => {
   const board = gameboard.board;
-  let pos = randomSpot();
+  
   if (player1.getType == "Human" && player2.getType == "Human") return;
-  if (player1.getType == "AI") {
-    if (xPlayer) {
-      board[pos[0]][pos[1]].innerHTML = "X";
-      xPlayer = false;
-    }
-  } 
-  if (!xPlayer) {
-    const emptSpotsArr = emptySpots().emptySpotsArray;
-    if (emptSpotsArr.length > 1) {
-      if (player2.getType == "AI") {
-        board[pos[0]][pos[1]].innerHTML = "O";
-        xPlayer = true;
+  if (!gameOver) {
+    let pos = randomSpot();
+    if (player1.getType == "AI") {
+      if (xPlayer) {
+        board[pos[0]][pos[1]].innerHTML = "X";
+        checkStatus();
+        xPlayer = false;
       }
     } 
-  } 
+    if (!xPlayer) {
+      const emptSpotsArr = emptySpots().emptySpotsArray;
+      if (emptSpotsArr.length > 1) {
+        if (player2.getType == "AI") {
+          board[pos[0]][pos[1]].innerHTML = "O";
+          checkStatus();
+          xPlayer = true;
+        }
+      } 
+    }
+  }
+   
 };
 
 const randomSpot = () => {
   const arr = emptySpots().emptySpotsArray;
-  if (arr.length > 1) {
-    let x = arr[Math.floor(Math.random() * arr.length)];
+
+  let x = arr[Math.floor(Math.random() * arr.length)];
   let i;
   let j;
     i = x.iPos;
     j = x.jPos;
   
   return [i, j];
-  }
-  return;
 };
 
 const checkStatus = () => {
@@ -136,10 +138,7 @@ const checkStatus = () => {
     comboArr.push(markAtRow, markAtCol);
   };
 
-  const emptSpotsArr = emptySpots().emptySpotsArray;
-  if (emptSpotsArr.length == 0 && gameOver == false) {
-    console.log("Tie game");
-  }
+  
 
   checkMark(comboArr);
 }
@@ -156,6 +155,11 @@ const checkMark = arr => {
       console.log(arr[i][0]);
       gameOver = true;
     }
+  }
+
+  const emptSpotsArr = emptySpots().emptySpotsArray;
+  if (emptSpotsArr.length == 0 && gameOver == false) {
+    console.log("Tie game");
   }
 }
   
