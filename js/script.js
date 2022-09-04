@@ -140,8 +140,6 @@ const checkStatus = () => {
   if (emptSpotsArr.length == 0 && gameOver == false) {
     console.log("Tie game");
   }
-  
-  
 
   checkMark(comboArr);
 }
