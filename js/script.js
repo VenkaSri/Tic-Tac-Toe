@@ -63,23 +63,7 @@ window.onload = () => {
   }
 };
 
-<<<<<<< HEAD
-const aiMark = () => {
-  let num = randomNumber();
-  turnArray.push(num);
-  if (player1.getName() == 'AI') {
-    placeMark(player1.getMark(), num);
-  } else {
-    placeMark(player2.getMark(), num);
-  }
-  
-};
-
-
-const checkWinner = () => {
-=======
 const emptySpots = () => {
->>>>>>> playervsai
   const board = gameboard.board;
   let iPos = 0;
   let jPos = 0;
@@ -131,40 +115,6 @@ const placeAIMark = () => {
 const randomSpot = () => {
   const arr = emptySpots().emptySpotsArray;
 
-<<<<<<< HEAD
-const pushToBoard = (pos, mark) => {
-  if(pos == 1 || pos == 2 || pos == 3) {
-    gameboard.board[0][pos - 1] = mark;
-  }
-  if(pos == 4 || pos == 5 || pos == 6) {
-    gameboard.board[1][pos - 4] = mark;
-  }
-  if(pos == 7 || pos == 8 || pos == 9) {
-    gameboard.board[2][pos - 7] = mark;
-  }
-}
-
-const player1 = player('Jim', 'x');
-  const player2 = player('AI', 'o');
-
-window.onload = () => {
-  const arr = displayBoard.mainContainer.childNodes;
-  if (player1.getName() != 'AI') {
-    for (let i = 0; i < arr.length; i++) {
-      arr[i].addEventListener('click', () => {
-        pos = i;
-        gameFlow();
-      }, {once: true});
-    }
-  } else {
-    console.log('called');
-    aiMark();
-    for (let i = 0; i < arr.length; i++) {
-      arr[i].addEventListener('click', () => {
-        pos = i;
-        gameFlow();
-      }, {once: true});
-=======
   let x = arr[Math.floor(Math.random() * arr.length)];
   let i;
   let j;
@@ -204,7 +154,6 @@ const checkMark = arr => {
     } else if(arr[i].every(checkO)) {
       console.log(arr[i][0]);
       gameOver = true;
->>>>>>> playervsai
     }
   }
 
