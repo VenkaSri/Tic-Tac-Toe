@@ -1,7 +1,11 @@
 let xPlayer = true;
 let gameOver = false;
+let xWinner = false;
+let oWinner = false;;
+let noWinner = false;
 const emptySpotsArray = [];
 const takenSpotsArray = [];
+
 
 const gameboard = (() => {
   const board = [[], [], []];
@@ -14,6 +18,8 @@ const gameboard = (() => {
   return { board };
 })();
 
+
+
 const player = (name, type) => {
   const getName = name;
   const getType = type;
@@ -21,7 +27,7 @@ const player = (name, type) => {
 };
 
 const player1 = player("Jim", "Human");
-const player2 = player("Pam", "AI");
+const player2 = player("Pam", "Human");
 
 window.onload = () => {
   const board = gameboard.board;
@@ -137,7 +143,6 @@ const checkStatus = () => {
     const markAtCol = [board[0][key].innerHTML, board[1][key].innerHTML, board[2][key].innerHTML];
     comboArr.push(markAtRow, markAtCol);
   };
-
   
 
   checkMark(comboArr);
@@ -149,24 +154,177 @@ const checkMark = arr => {
   
   for(let i = 0; i < arr.length; i++) {
     if(arr[i].every(checkX)) {
-      console.log(arr[i][0]);
+      xWinner = true;
       gameOver = true;
     } else if(arr[i].every(checkO)) {
-      console.log(arr[i][0]);
+      oWinner = true;
       gameOver = true;
     }
   }
 
   const emptSpotsArr = emptySpots().emptySpotsArray;
   if (emptSpotsArr.length == 0 && gameOver == false) {
+    noWinner = true;
     console.log("Tie game");
   }
 }
+
+const checkWinneFound = (currMark) => {
+  const board = gameboard.board;
+  for (let i = 0; i < board[1].length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      console.log(board[i][j].innerHTML);
+      if (
+        (board[i][j].innerHTML == currMark && board[i][j + 1].innerHTML == currMark && board[i][j + 2].innerHTML == currMark) || 
+      // check row
+      (board[i][0 + i].innerHTML == currMark && board[1][0 + i].innerHTML == currMark && board[2][0 + i].innerHTML == currMark) ||
+      //check diagonal
+      (board[0][2].innerHTML == currMark && board[1][1].innerHTML == currMark && board[2][0].innerHTML == currMark) ||
+      (board[0][0].innerHTML == currMark && board[1][1].innerHTML == currMark && board[2][2].innerHTML == currMark)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+};
+
+
   
+const aiMark = "X";
+const humanMark = "O";
   
+function minimax(currBdSt, currMark) { 
+
+  const availCellsIndexes = emptySpots().emptySpotsArray;
+  const allTestPlayInfos = [];
+  checkStatus();
+  if (oWinner) {
+    return {score: -1};
+} else if (xWinner) {
+    return {score: 1};
+} else if (noWinner) {
+    return {score: 0};
+}
+
+
+  for (let i = 0; i < availCellsIndexes.length; i++) {
+    const currentTestPlayInfo = {};
+    currentTestPlayInfo.index = availCellsIndexes[i];
+
+
+    for (let j = 0; j < currBdSt.length; j++) {
+      if(currBdSt[j].iPos === currentTestPlayInfo.index.iPos && currBdSt[j].jPos === currentTestPlayInfo.index.jPos) {
+        currBdSt[j] = currMark;
+        
+      }
+    }
+
+
+    if (currMark === aiMark) {
+      const result = minimax(currBdSt, humanMark);
+      currentTestPlayInfo.score = result.score;
+  } else {
+      const result = minimax(currBdSt, aiMark);
+      currentTestPlayInfo.score = result.score;
+  }
+
+
+  board[availCellsIndexes[i].iPos][availCellsIndexes[i].jPos] = currentTestPlayInfo.index;
+  allTestPlayInfos.push(currentTestPlayInfo);
+  }
+
+  let bestTestPlay = null;
+    
+    // Step 16 - Get the reference to the current player’s best test-play:
+    if (currMark === aiMark) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < allTestPlayInfos.length; i++) {
+            if (allTestPlayInfos[i].score > bestScore) {
+                bestScore = allTestPlayInfos[i].score;
+                bestTestPlay = i;
+            }
+        }
+    } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < allTestPlayInfos.length; i++) {
+            if (allTestPlayInfos[i].score < bestScore) {
+                bestScore = allTestPlayInfos[i].score;
+                bestTestPlay = i;
+            }
+        }
+    }
+    
+    // Step 17 - Get the object with the best test-play score for the current player:
+    return allTestPlayInfos[bestTestPlay]
+
+
+}
+
+const aI = (\currMark) => {
+  const availCellsIndexes = emptySpots().emptySpotsArray;
+  const allTestPlayInfos = [];
   
-  
-  
-  
+  if (checkWinneFound(humanMark)) {
+    return {score: -1};
+} else if (checkWinneFound(aiMark)) {
+    return {score: 1};
+} else if (availCellsIndexes.length === 0) {
+    return {score: 0};
+}
+
+
+  for (let i = 0; i < availCellsIndexes.length; i++) {
+    const currentTestPlayInfo = {};
+    currentTestPlayInfo.index = availCellsIndexes[i];
+
+    
+    for (let j = 0; j < currBdSt.length; j++) {
+      if(currBdSt[j].iPos === currentTestPlayInfo.index.iPos && currBdSt[j].jPos === currentTestPlayInfo.index.jPos) {
+        currBdSt[j] = currMark;
+        console.log(currBdSt[j])
+      }
+    }
+
+    if ( currMark === aiMark) {
+      const result = aI(currBdSt, humanMark);
+      currentTestPlayInfo.score = result.score;
+      console.log(result);
+  } else {
+      const result = aI(currBdSt, aiMark);
+      currentTestPlayInfo.score = result.score;
+      console.log(result);
+  }
+
+
+
+  }
+
+
+
+    
+}
+
+
+
   
 
+const currentBoard = () => {
+  const board = gameboard.board;
+  let iPos = 0;
+  let jPos = 0;
+  const currBdSt = [];
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      iPos = i;
+      jPos = j;
+      currBdSt.push({ iPos, jPos });
+    }
+  }
+  return currBdSt;
+}
+const currBdSt = currentBoard();
+
+  
+const bestPlayInfo = aI(currBdSt, aiMark);
