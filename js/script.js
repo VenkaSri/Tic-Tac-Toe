@@ -194,7 +194,6 @@ const humanMark = "O";
 
 
 const aI = (currBdSt, currMark) => {
-  const availCellsIndexes = emptySpots().emptySpotsArray;
   
   
   const arr = emptySpots().emptySpotsArray;
@@ -203,32 +202,67 @@ const aI = (currBdSt, currMark) => {
     return {score: -1};
 } else if (checkWinnerFound(currBdSt, aiMark)) {
     return {score: 1};
-} else if (availCellsIndexes.length === 0) {
+} else if (arr.length === 0) {
     return {score: 0};
 }
 
 const allTestPlayInfos = [];
-const currentTestPlayInfo = {};
-currentTestPlayInfo.index = {iPos: arr[1].iPos, jPos: arr[1].jPos};
 
-currBdSt[arr[1].iPos][arr[1].jPos].innerHTML = currMark;
-
-console.log(currentTestPlayInfo);
-
-
-if (currMark === aiMark) {
-  // Step 11 - Recursively run the minimax function for the new board:
-  const result = aI(currBdSt, humanMark);
+for (let i = 0; i < arr.length; i++) {
+  const currentTestPlayInfo = {};
+  currentTestPlayInfo.index = {iPos: arr[i].iPos, jPos: arr[i].jPos};
   
-  // Step 12 - Save the result variable’s score into the currentTestPlayInfo object:
-  currentTestPlayInfo.score = result.score;
+  currBdSt[arr[i].iPos][arr[i].jPos].innerHTML = currMark;
+  
+  
+  
+  if (currMark === aiMark) {
+    // Step 11 - Recursively run the minimax function for the new board:
+    const result = aI(currBdSt, humanMark);
+    
+    // Step 12 - Save the result variable’s score into the currentTestPlayInfo object:
+    currentTestPlayInfo.score = result;
+  } else {
+    // Step 11 - Recursively run the minimax function for the new board:
+    const result = aI(currBdSt, aiMark);
+    
+    // Step 12 - Save the result variable’s score into the currentTestPlayInfo object:
+    currentTestPlayInfo.score = result;
+  }
+  
+  currBdSt[arr[i].iPos][arr[i].jPos] = currentTestPlayInfo.index;
+  
+  allTestPlayInfos.push(currentTestPlayInfo);
 }
 
-currBdSt[arr[1].iPos][arr[1].jPos] = currentTestPlayInfo.index;
+let bestTestPlay = null;
+    
+    // Step 16 - Get the reference to the current player’s best test-play:
+    if (currMark === aiMark) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < allTestPlayInfos.length; i++) {
+            if (allTestPlayInfos[i].score > bestScore) {
+                bestScore = allTestPlayInfos[i].score;
+                bestTestPlay = i;
+            }
+        }
+    } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < allTestPlayInfos.length; i++) {
+            if (allTestPlayInfos[i].score < bestScore) {
+                bestScore = allTestPlayInfos[i].score;
+                bestTestPlay = i;
+            }
+        }
+    }
 
-allTestPlayInfos.push(currentTestPlayInfo);
+    
+    // Step 17 - Get the object with the best test-play score for the current player:
+    return allTestPlayInfos[bestTestPlay];
 
-console.log(allTestPlayInfos)
+
+
+
 }
 
 
