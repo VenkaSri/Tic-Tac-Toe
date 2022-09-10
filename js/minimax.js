@@ -1,0 +1,6 @@
+
+
+
+const minimax = (currentBoard, currentMark) => {
+
+}
