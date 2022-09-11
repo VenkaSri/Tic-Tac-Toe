@@ -1,6 +1,5 @@
-const allTestPlayInfos = [];
-const aiMark = "X";
-const humanMark = "O";
+const aiMark = "O";
+const humanMark = "X";
 
 const board= () => {
   const currentBoardState = [0,1,2,3,4,5,6,7,8];
@@ -13,6 +12,8 @@ const board= () => {
   }
  return currentBoardState;
 }
+
+const currBoardState = board();
 
 function terminalState(currentBoardState, currMark) {
   return (
@@ -29,7 +30,7 @@ function terminalState(currentBoardState, currMark) {
 
 const minimax = (currentBoardState, currMark) => {
   
-  const emptySpots = currentBoardState.filter(i => i != "O" && i != "X");
+  const emptySpots = getAllEmptyCellsIndexes(currentBoardState);
   
   if (terminalState(currentBoardState, humanMark)) {
       return {score: -1};
@@ -38,6 +39,7 @@ const minimax = (currentBoardState, currMark) => {
   } else if (emptySpots.length === 0) {
       return {score: 0};
   }
+  const allTestPlayInfos = [];
   for (let i = 0; i < emptySpots.length; i++) {
       const currentTestPlayInfo = {};
 
@@ -74,6 +76,11 @@ const minimax = (currentBoardState, currMark) => {
       }
   }
   
-  return allTestPlayInfos[bestTestPlay].index;
+  return allTestPlayInfos[bestTestPlay];
 } 
 
+const bestPlayInfo = minimax(currBoardState, aiMark);
+
+function getAllEmptyCellsIndexes(currBdSt) {
+    return currBdSt.filter(i => i != "O" && i != "X");
+}
