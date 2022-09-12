@@ -1,5 +1,5 @@
-const aiMark = "O";
-const humanMark = "X";
+const aiMark = "X";
+const humanMark = "O";
 
 const board= () => {
   const currentBoardState = [0,1,2,3,4,5,6,7,8];
@@ -12,8 +12,6 @@ const board= () => {
   }
  return currentBoardState;
 }
-
-const currBoardState = board();
 
 function terminalState(currentBoardState, currMark) {
   return (
@@ -78,8 +76,6 @@ const minimax = (currentBoardState, currMark) => {
   
   return allTestPlayInfos[bestTestPlay];
 } 
-
-const bestPlayInfo = minimax(currBoardState, aiMark);
 
 function getAllEmptyCellsIndexes(currBdSt) {
     return currBdSt.filter(i => i != "O" && i != "X");
