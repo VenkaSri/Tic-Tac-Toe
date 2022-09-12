@@ -1,7 +1,9 @@
 let xPlayer = true;
 let gameOver = false;
-const emptySpotsArray = [];
-const takenSpotsArray = [];
+let xWinner = false;
+let oWinner = false;;
+let noWinner = false;
+let firstMove = true;
 
 const gameboard = (() => {
   const board = [[], [], []];
@@ -14,14 +16,16 @@ const gameboard = (() => {
   return { board };
 })();
 
+
+
 const player = (name, type) => {
   const getName = name;
   const getType = type;
   return { getName, getType };
 };
 
-const player1 = player("Jim", "Human");
-const player2 = player("Pam", "AI");
+const player1 = player("Jim", "AI");
+const player2 = player("Pam", "Human");
 
 window.onload = () => {
   const board = gameboard.board;
@@ -41,7 +45,7 @@ window.onload = () => {
                   placeAIMark();
                 }
               } else {
-                placeAIMark();
+                
               }
             } else {
               if (player2.getType == "Human") {
@@ -51,9 +55,7 @@ window.onload = () => {
                   xPlayer = true;
                   placeAIMark();
                 }
-              } else {
-                placeAIMark();
-              }
+              } 
             }
           }
         },
@@ -63,66 +65,50 @@ window.onload = () => {
   }
 };
 
-const emptySpots = () => {
-  const board = gameboard.board;
-  let iPos = 0;
-  let jPos = 0;
-  emptySpotsArray.length = 0;
-  takenSpotsArray.length = 0;
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
-      if (board[i][j].innerHTML == "") {
-        iPos = i;
-        jPos = j;
-        emptySpotsArray.push({ iPos, jPos });
-      } else {
-        iPos = i;
-        jPos = j;
-        takenSpotsArray.push({ iPos, jPos });
-      }
-    }
-  }
-  return {emptySpotsArray, takenSpotsArray};
-};
-
 const placeAIMark = () => {
-  const board = gameboard.board;
-  
-  if (player1.getType == "Human" && player2.getType == "Human") return;
-  if (!gameOver) {
-    let pos = randomSpot();
-    if (player1.getType == "AI") {
-      if (xPlayer) {
-        board[pos[0]][pos[1]].innerHTML = "X";
-        checkStatus();
-        xPlayer = false;
-      }
-    } 
-    if (!xPlayer) {
-      const emptSpotsArr = emptySpots().emptySpotsArray;
-      if (emptSpotsArr.length > 1) {
-        if (player2.getType == "AI") {
-          board[pos[0]][pos[1]].innerHTML = "O";
-          checkStatus();
-          xPlayer = true;
-        }
-      } 
-    }
+  if (firstMove && player1.getType == 'AI') {
+    let randNum = Math.floor(Math.random() * 9);
+    find2DSpot(randNum);
+    xPlayer = false;
+    firstMove = false;
+  } else if (player1.getType == 'AI') {
+    const currBoardState = board();
+    const bestPlayInfo = minimax(currBoardState, aiMark);
+    find2DSpot(bestPlayInfo.index)
+    checkStatus();
+    xPlayer = false;
   }
-   
+
 };
 
-const randomSpot = () => {
-  const arr = emptySpots().emptySpotsArray;
 
-  let x = arr[Math.floor(Math.random() * arr.length)];
-  let i;
-  let j;
-    i = x.iPos;
-    j = x.jPos;
-  
-  return [i, j];
-};
+
+
+const find2DSpot = (index) => {
+  const board = gameboard.board;
+  console.log(index);
+  if (index < 3) board[0][index].innerHTML = aiMark;
+  switch (index) {
+    case 3:
+      board[1][0].innerHTML = aiMark;
+      break;
+    case 4:
+      board[1][1].innerHTML = aiMark;
+      break;
+    case 5:
+      board[1][2].innerHTML = aiMark;
+      break;
+    case 6:
+      board[2][0].innerHTML = aiMark;
+      break;
+    case 7:
+      board[2][1].innerHTML = aiMark;
+      break;
+    case 8:
+      board[2][2].innerHTML = aiMark;
+      break;
+  }
+}
 
 const checkStatus = () => {
   const board = gameboard.board; 
@@ -137,9 +123,6 @@ const checkStatus = () => {
     const markAtCol = [board[0][key].innerHTML, board[1][key].innerHTML, board[2][key].innerHTML];
     comboArr.push(markAtRow, markAtCol);
   };
-
-  
-
   checkMark(comboArr);
 }
 
@@ -157,16 +140,9 @@ const checkMark = arr => {
     }
   }
 
-  const emptSpotsArr = emptySpots().emptySpotsArray;
-  if (emptSpotsArr.length == 0 && gameOver == false) {
+  const emptySpots = getAllEmptyCellsIndexes(board());
+  if (emptySpots.length == 0 && gameOver == false) {
     console.log("Tie game");
   }
 }
-  
-  
-  
-  
-  
-  
-  
 
