@@ -1,0 +1,38 @@
+@mixin flexCenter($direction, $content) {
+  display: flex;
+  justify-content: $content;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+header {
+  height: 100px;
+
+  h1 {
+    font-size: 120px;
+    text-align: center;
+  }
+}
+
+main {
+  height: 100%;
+  @include flexCenter(row, center);
+  gap: 100px;
+}
+
+.pvp,
+.pvai {
+  width: 400px;
+  height: 490px;
+  background-color: #eee;
+  border-radius:  10px;
+  border: 1px solid #000;
+  @include flexCenter(column, flex-start); 
+}
