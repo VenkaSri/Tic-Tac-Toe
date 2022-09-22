@@ -1,12 +1,13 @@
 const selectPVP = document.querySelector('.pvp');
+const wrapper = document.querySelector('.wrapper');
 const selectPVAI = document.querySelector('.pvai');
 const players = document.querySelectorAll('.player');
 const aplayers = document.querySelectorAll('.aplayer');
 const inputs = document.querySelectorAll('.pvp input');
 const ainputs = document.querySelectorAll('.pvai input');
 
-let pvpMode = true;
-let pvaiMode = true;
+let pvpMode;
+let pvaiMode;
 
 const togglePVP = () => {
   if (pvpMode) {
@@ -28,16 +29,18 @@ const togglePVAI = () => {
   }
 }
 
-selectPVP.addEventListener('click', () => {
-  pvpMode = true;
-  pvaiMode = false;
-  togglePVAI();
-  togglePVP();
-});
+wrapper.onclick = function(e) {
+  let targetName = e.target.className;
 
-selectPVAI.addEventListener('click', () => {
-  pvpMode = false;
-  pvaiMode = true;
-  togglePVP();
-  togglePVAI();
-});
+  if (targetName == 'pvp') {
+    pvpMode = true;
+    pvaiMode = false;
+    togglePVAI();
+    togglePVP();
+  } else if (targetName == 'pvai') {
+    pvpMode = false;
+    pvaiMode = true;
+    togglePVAI();
+    togglePVP();
+  }
+}
