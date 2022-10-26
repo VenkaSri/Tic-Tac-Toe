@@ -5,6 +5,7 @@ const players = document.querySelectorAll('.player');
 const aplayers = document.querySelectorAll('.aplayer');
 const inputs = document.querySelectorAll('.pvp input');
 const ainputs = document.querySelectorAll('.pvai input');
+const options = document.querySelector('select');
 
 let pvpMode;
 let pvaiMode;
@@ -13,9 +14,11 @@ const togglePVP = () => {
   if (pvpMode) {
     players.forEach(i => i.classList.add('hide'));
     inputs.forEach(i => i.classList.remove('hide'));
+    options.classList.remove('hide');
   } else {
     players.forEach(i => i.classList.remove('hide'));
     inputs.forEach(i => i.classList.add('hide'));
+    options.classList.add('hide');
   }
 }
 
