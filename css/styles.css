@@ -50,4 +50,12 @@ input {
   height: 30px;
   background-color: #eee;
   border-bottom: 1px solid #000;
+}
+
+select {
+  outline: none;
+  border: none;
+  height: 33px;
+  background-color: #eee;
+  border-bottom: 1px solid #000;
 }/*# sourceMappingURL=styles.css.map */
