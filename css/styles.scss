@@ -21,7 +21,7 @@ header {
   }
 }
 
-main {
+.wrapper {
   height: 100%;
   @include flexCenter(row, center);
   gap: 100px;
