@@ -7,6 +7,7 @@ const inputs = document.querySelectorAll('.pvp input');
 const ainputs = document.querySelectorAll('.pvai input');
 const pvpOptions = document.querySelectorAll('.pvp select');
 const pvaiOptions = document.querySelectorAll('.pvai select');
+const playBtn = document.querySelector('button');
 
 let pvpMode;
 let pvaiMode;
@@ -50,3 +51,4 @@ wrapper.onclick = function(e) {
     togglePVP();
   }
 }
+

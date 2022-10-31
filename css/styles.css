@@ -13,6 +13,14 @@ header h1 {
   text-align: center;
 }
 
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+}
+
 .wrapper {
   height: 100%;
   display: flex;
@@ -44,7 +52,8 @@ header h1 {
   display: block;
 }
 
-input {
+input,
+select {
   outline: none;
   border: none;
   height: 30px;
@@ -52,10 +61,13 @@ input {
   border-bottom: 1px solid #000;
 }
 
-select {
+main button {
+  width: 100px;
+  padding: 10px;
+  background-color: rgb(92, 255, 116);
   outline: none;
   border: none;
-  height: 33px;
-  background-color: #eee;
-  border-bottom: 1px solid #000;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
 }/*# sourceMappingURL=styles.css.map */
