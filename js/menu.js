@@ -7,7 +7,8 @@ const inputs = document.querySelectorAll('.pvp input');
 const ainputs = document.querySelectorAll('.pvai input');
 const pvpOptions = document.querySelectorAll('.pvp select');
 const pvaiOptions = document.querySelectorAll('.pvai select');
-const playBtn = document.querySelector('button');
+const playBtn = document.querySelector('.playBtn');
+
 
 let pvpMode;
 let pvaiMode;
@@ -52,3 +53,9 @@ wrapper.onclick = function(e) {
   }
 }
 
+playBtn.addEventListener('click', () => {
+  const userInput = document.querySelector('.pvp1').value;
+  console.log(userInput);
+  const userMark = document.querySelector('.pvps1').value;
+  console.log(userMark);
+})
