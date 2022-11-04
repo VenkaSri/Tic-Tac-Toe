@@ -72,14 +72,15 @@ function getPVAIPInputs() {
 
 playBtn.addEventListener('click', () => {
   getPVPInputs();
+  
 })
 
 function inputFieldValidations() {
-  const playerOneInput = document.querySelector('.pvp1');
-  const playerTwoInput = document.querySelector('.pvp2');
+  const playerOneInput = document.querySelector('.pvp1').value;
+  const playerTwoInput = document.querySelector('.pvp2').value;
   if(playerOneInput != ""  && playerTwoInput != "") {
-    playerOneName = playerOneInput.value;
-    playerTwoName = playerTwoInput.value;
+    playerOneName = playerOneInput;
+    playerTwoName = playerTwoInput;
   } else {
     errorMessage("Fields are empty!");
   }
