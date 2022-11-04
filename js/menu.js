@@ -58,9 +58,8 @@ wrapper.onclick = function(e) {
 }
 
 function getPVPInputs() {
-  const userInput = document.querySelector('.pvp1').value;
-  const userMark = document.querySelector('.pvps1').value;
-  if (userInput != "") return userInput;
+  inputFieldValidations();
+  selectValidations();
 }
 
 function getPVAIPInputs() {
@@ -72,5 +71,32 @@ function getPVAIPInputs() {
 
 
 playBtn.addEventListener('click', () => {
-  
+  getPVPInputs();
 })
+
+function inputFieldValidations() {
+  const playerOneInput = document.querySelector('.pvp1');
+  const playerTwoInput = document.querySelector('.pvp2');
+  if(playerOneInput != ""  && playerTwoInput != "") {
+    playerOneName = playerOneInput.value;
+    playerTwoName = playerTwoInput.value;
+  } else {
+    errorMessage("Fields are empty!");
+  }
+}
+
+function selectValidations() {
+  const playerOneOption = document.querySelector('.pvps1').value;
+  const playerTwoOption = document.querySelector('.pvps2').value;
+  if(playerOneOption !== playerTwoOption) {
+    playerOneMark = playerOneOption;
+    playerTwoName = playerTwoOption;
+  } else {
+    errorMessage("Marks cannot be the same!");
+  }
+}
+
+function errorMessage(message) {
+  const error = document.querySelector('.errorMsg');
+  error.innerHTML = message;
+}
