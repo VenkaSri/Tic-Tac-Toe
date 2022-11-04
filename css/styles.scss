@@ -23,13 +23,28 @@ header {
 
 main {
   @include flexCenter(column, center);
-  gap: 50px;
-}
 
-.wrapper {
-  height: 100%;
-  @include flexCenter(row, center);
-  gap: 100px;
+  .wrapper {
+    height: 100%;
+    @include flexCenter(row, center);
+    gap: 100px;
+  }
+
+  button {
+    margin-top: 40px;
+    width: 100px;
+    padding: 10px;
+    background-color: rgb(0, 139, 21);
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .errorMsg {
+    margin-top: 25px;
+  }
 }
 
 .pvp,
@@ -58,17 +73,6 @@ select {
   height: 30px;
   background-color: #eee;
   border-bottom: 1px solid #000;
-}
-
-main button {
-  width: 100px;
-  padding: 10px;
-  background-color: rgb(0, 139, 21);
-  outline: none;
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  cursor: pointer;
 }
 
 
